@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lmj.o2o.dao.ShopDao">
+
+    <resultMap id="shopMap" type="com.lmj.o2o.entity.Shop">
+        <id column="shop_id" property="shopId" />
+        <result column="owner_id" property="ownerId" />
+        <result column="shop_category_id" property="shopCategoryId" />
+        <result column="shop_name" property="shopName" />
+        <result column="shop_desc" property="shopDesc" />
+        <result column="shop_addr" property="shopAddr" />
+        <result column="phone" property="phone" />
+        <result column="shop_img" property="shopImg" />
+        <result column="longitude" property="longitude" />
+        <result column="latitude" property="latitude" />
+        <result column="priority" property="priority" />
+        <result column="create_time" property="createTime" />
+        <result column="last_edit_time" property="lastEditTime" />
+        <result column="enable_status" property="enableStatus" />
+        <result column="advice" property="advice" />
+        <result column="parent_category_id" property="parentShopCategoryId"/>
+        <association property="area" column="area_id"
+                     javaType="com.lmj.o2o.entity.Area">
+            <id column="area_id" property="areaId" />
+            <result column="area_name" property="areaName" />
+            <result column="area_desc" property="areaDesc" />
+            <result column="priority" property="priority" />
+            <result column="create_time" property="createTime" />
+            <result column="last_edit_time" property="lastEditTime" />
+        </association>
+        <association property="shopCategory" column="shop_category_id"
+                     javaType="com.lmj.o2o.entity.ShopCategory">
+            <id column="shop_category_id" property="shopCategoryId" />
+            <result column="shop_category_name" property="shopCategoryName" />
+            <result column="shop_category_desc" property="shopCategoryDesc" />
+            <result column="shop_category_img" property="shopCategoryImg" />
+            <result column="priority" property="priority" />
+            <result column="create_time" property="createTime" />
+            <result column="last_edit_time" property="lastEditTime" />
+        </association>
+    </resultMap>
+
+
+   <select id="queryOwnerShops" parameterType="com.lmj.o2o.vo.PageVO" resultType="com.lmj.o2o.entity.Shop">
+       SELECT shop_id,shop_name,enable_status
+        FROM tb_shop
+        WHERE owner_id=#{ownerId}
+        LIMIT #{startIndex},#{pageSize}
+   </select>
+
+    <update id="updateShopInfo" parameterType="com.lmj.o2o.entity.Shop">
+        UPDATE tb_shop
+        <set>
+            last_edit_time=#{lastEditTime},
+            <if test="shopName!=null">
+                shop_name=#{shopName},
+            </if>
+            <if test="shopCategoryId!=null">
+                shop_category_id=#{shopCategoryId},
+            </if>
+            <if test="areaId!=null">
+                area_id=#{areaId},
+            </if>
+            <if test="shopName!=null">
+                shop_name=#{shopName},
+            </if>
+            <if test="shopAddr!=null">
+                shop_addr=#{shopAddr},
+            </if>
+            <if test="phone!=null">
+                phone=#{phone},
+            </if>
+            <if test="shopDesc!=null">
+                shop_desc=#{shopDesc},
+            </if>
+            <if test="priority!=null">
+                priority=#{priority},
+            </if>
+            <if test="shopImg!=null">
+                shop_img=#{shopImg},
+            </if>
+            <if test="longitude!=null">
+                longitude=#{longitude},
+            </if>
+            <if test="latitude!=null">
+                latitude=#{latitude},
+            </if>
+            <if test="advice!=null">
+                advice=#{advice},
+            </if>
+            <if test="enableStatus!=null">
+                enable_status=#{enableStatus},
+            </if>
+            <if test="parentShopCategoryId!=null">
+                parent_category_id=#{parentShopCategoryId}
+            </if>
+        </set>
+        WHERE shop_id=#{shopId}
+    </update>
+
+
+    <insert id="addNewShop" parameterType="com.lmj.o2o.entity.Shop" useGeneratedKeys="true" keyColumn="shop_id" keyProperty="shopId">
+        INSERT INTO tb_shop (
+         owner_id,area_id,shop_category_id,parent_category_id,shop_name,shop_desc,shop_addr,phone,shop_img,longitude,latitude,priority,create_time,last_edit_time,enable_status,advice
+        )
+        VALUES(
+          #{ownerId},#{areaId},#{shopCategoryId},#{parentShopCategoryId},#{shopName},#{shopDesc},#{shopAddr},#{phone},#{shopImg},#{longitude},#{latitude},#{priority},#{createTime},#{lastEditTime},#{enableStatus},#{advice}
+              )
+    </insert>
+
+
+    <select id="queryShopByShopId" parameterType="com.lmj.o2o.entity.Shop"  resultMap="shopMap">
+        SELECT shop_id,shop_name,shop_category_name,area_name,shop_addr,phone,shop_desc,shop_img
+        FROM ((tb_shop LEFT JOIN tb_area ON tb_shop.area_id= tb_area.area_id)
+                 LEFT JOIN tb_shop_category ON tb_shop.shop_category_id = tb_shop_category.shop_category_id) WHERE shop_id=#{shopId}
+    </select>
+
+
+    <select id="countTotalShops" parameterType="com.lmj.o2o.entity.Shop" resultType="int">
+        SELECT count(*) FROM tb_shop
+        <if test="ownerId!=null">
+            WHERE owner_id=#{ownerId}
+        </if>
+
+    </select>
+
+
+
+    <select id="queryAllShops" resultType="com.lmj.o2o.entity.Shop" parameterType="com.lmj.o2o.vo.PageVO">
+        SELECT shop_id,owner_id,area_id,shop_category_id,parent_category_id,shop_name,shop_desc,shop_addr,phone,shop_img,longitude,latitude,priority,create_time,last_edit_time,enable_status,advice
+        FROM tb_shop ORDER BY priority DESC limit #{startIndex},#{pageSize}
+    </select>
+</mapper>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lmj.o2o.dao.UserAwardDao">
+
+    <resultMap id="userAwardDM" type="com.lmj.o2o.entity.UserAwardMap" >
+        <id property="userAwardId" column="user_award_id"></id>
+        <result property="userId" column="user_id"/>
+        <result property="shopId" column="shop_id"/>
+        <result property="point" column="point" />
+        <result property="awardId" column="award_id"/>
+        <result property="awardName" column="award_name"/>
+        <result property="createTime" column="create_time"/>
+        <result property="usedStatus" column="used_status"/>
+        <association property="shop"  javaType="com.lmj.o2o.entity.Shop">
+            <id column="shop_id" property="shopId"></id>
+            <result column="shop_name" property="shopName"/>
+        </association>
+    </resultMap>
+
+
+    <insert id="addNewUserAwardMap" parameterType="com.lmj.o2o.entity.UserAwardMap" useGeneratedKeys="true" keyProperty="userAwardId" keyColumn="user_award_id" >
+        INSERT INTO tb_user_award_map (user_id,award_id,shop_id,user_name,award_name,expire_time,create_time,used_status,point)
+        VALUES(#{userId},#{awardId},#{shopId},#{userName},#{awardName},#{expireTime},#{createTime},#{usedStatus},#{point})
+    </insert>
+
+    <update id="updateUserAwardMap" parameterType="com.lmj.o2o.entity.UserAwardMap">
+        UPDATE tb_user_award_map
+      <set>
+          <if test="expireTime!=null">expire_time=#{expireTime},</if>
+          <if test="usedStatus!=null">used_status=#{usedStatus}</if>
+      </set>
+      WHERE user_award_id=#{userAwardId}
+    </update>
+
+    <select id="queryAllUserAward" parameterType="com.lmj.o2o.vo.PageVO" resultMap="userAwardDM">
+        SELECT user_award_id,A.user_id,A.shop_id,shop_name,A.point,award_id,award_name,A.create_time,used_status
+        FROM tb_user_award_map A
+          INNER JOIN tb_shop B
+          ON A.shop_id=B.shop_id
+            WHERE A.user_id=#{userId}
+              ORDER BY A.create_time DESC
+            LIMIT 0,#{totals}
+
+    </select>
+
+
+    <select id="countTotalRecords" parameterType="com.lmj.o2o.vo.PageVO" resultType="int">
+        SELECT COUNT(*) FROM tb_user_award_map WHERE shop_id=#{shopId}
+    </select>
+
+
+
+
+    <select id="queryAllUserAwardByShopId" parameterType="com.lmj.o2o.vo.PageVO" resultType="com.lmj.o2o.entity.UserAwardMap">
+        SELECT user_award_id,user_id,user_name,award_id,award_name,create_time,used_status,POINT
+        FROM tb_user_award_map WHERE shop_id=#{shopId} ORDER BY create_time DESC
+        LIMIT #{startIndex},#{pageSize}
+
+    </select>
+</mapper>

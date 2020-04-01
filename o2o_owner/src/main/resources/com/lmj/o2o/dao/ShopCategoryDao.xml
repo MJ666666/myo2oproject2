@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lmj.o2o.dao.ShopCategoryDao">
+    <resultMap id="areaRM" type="com.lmj.o2o.entity.ShopCategory">
+        <result property="shopCategoryId" column="shop_category_id" />
+        <result property="shopCategoryName" column="shop_category_name" />
+        <result property="shopCategoryDesc" column="shop_category_desc" />
+        <result property="shopCategoryImg" column="shop_category_img" />
+        <result property="priority" column="priority" />
+        <association property="shopCategory" column="parent_id" javaType="com.lmj.o2o.entity.ShopCategory">
+            <result property="shopCategoryId" column="parent_id"/>
+            <result property="shopCategoryName" column="parent_name" />
+            <result property="shopCategoryDesc" column="parent_name_desc" />
+            <result property="shopCategoryImg" column="parent_name_img" />
+            <result property="priority" column="priority" />
+        </association>
+
+    </resultMap>
+
+    <select id="getShopCategorys" resultMap="areaRM">
+        SELECT shop_category_id,shop_category_name  FROM tb_shop_category WHERE IFNULL(parent_id,0)!=0 ORDER BY priority DESC
+    </select>
+
+    <select id="getShopParentCategorys" resultMap="areaRM">
+        SELECT DISTINCT A.parent_id shop_category_id,B.shop_category_name,B.shop_category_img,B.shop_category_desc
+        FROM tb_shop_category A INNER JOIN tb_shop_category B ON A.parent_id=B.shop_category_id ORDER BY B.priority DESC
+    </select>
+
+    <select id="getShopCategoryByParentId" parameterType="com.lmj.o2o.entity.ShopCategory" resultType="com.lmj.o2o.entity.ShopCategory">
+        SELECT shop_category_id,shop_category_name FROM tb_shop_category WHERE parent_id=#{parentId} ORDER BY priority desc
+    </select>
+
+    <delete id="deleteShopCategory" parameterType="com.lmj.o2o.entity.ShopCategory">
+        DELETE FROM tb_shop_category WHERE shop_category_id=#{shopCategoryId}
+    </delete>
+
+    <insert id="addShopCategory" parameterType="com.lmj.o2o.entity.ShopCategory">
+        INSERT INTO tb_shop_category(
+            shop_category_name,shop_category_desc,shop_category_img,priority,create_time,last_edit_time,parent_id
+        )
+        VALUES (
+                #{shopCategoryName},#{shopCategoryDesc},#{shopCategoryImg},#{priority},#{createTime},#{lastEditTime},#{parentId}
+               )
+    </insert>
+
+    <update id="updateShopCategory" parameterType="com.lmj.o2o.entity.ShopCategory">
+        UPDATE tb_shop_category
+        <set>
+            <if test="shopCategoryName!=null">shop_category_name=#{shopCategoryName},</if>
+            <if test="shopCategoryDesc!=null">shop_category_desc=#{shopCategoryDesc},</if>
+            <if test="shopCategoryImg!=null">shop_category_img=#{shopCategoryImg},</if>
+            <if test="priority!=null">priority=#{priority},</if>
+            <if test="createTime!=null">create_time=#{createTime},</if>
+            <if test="lastEditTime!=null">last_edit_time=#{lastEditTime},</if>
+            <if test="parentId!=null">parent_id=#{parentId}</if>
+        </set>
+      WHERE shop_category_id=#{shopCategoryId}
+    </update>
+
+    <select id="queryAllShopCategory" resultType="com.lmj.o2o.entity.ShopCategory">
+        SELECT shop_category_id,shop_category_name,shop_category_desc,shop_category_img,priority,create_time,last_edit_time,parent_id
+        FROM tb_shop_category
+    </select>
+</mapper>

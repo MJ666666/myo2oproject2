@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lmj.o2o.dao.LocalAuthDao">
+
+    <select id="verifyAccount" parameterType="com.lmj.o2o.entity.LocalAuth" resultType="com.lmj.o2o.entity.LocalAuth">
+        SELECT user_id,user_name,password,uuid FROM tb_local_auth
+        WHERE user_name=#{userName}
+          <if test="password!=null">
+              AND password=#{password}
+          </if>
+    </select>
+
+    <insert id="addNewAccount" parameterType="com.lmj.o2o.entity.LocalAuth" useGeneratedKeys="true" keyColumn="local_auth_id" keyProperty="localAuthId">
+        INSERT INTO tb_local_auth (user_id,user_name,password,create_time,last_edit_time,uuid)
+        VALUES(
+               #{userId},#{userName},#{password},#{createTime},#{lastEditTime},#{uuid}
+              )
+    </insert>
+
+    <update id="updateAccount" parameterType="com.lmj.o2o.entity.LocalAuth">
+        UPDATE tb_local_auth
+        <set>
+            <if test="password!=null">
+            password=#{password},
+            </if>
+            <if test="userId!=null">
+                user_id=#{userId},
+            </if>
+            last_edit_time=#{lastEditTime}
+        </set>
+        WHERE uuid=#{uuid} AND password=#{oldPassword}
+    </update>
+
+    <select id="queryExistAccount" parameterType="com.lmj.o2o.entity.LocalAuth" resultType="int">
+        SELECT count(*) from tb_local_auth WHERE user_name=#{userName}
+    </select>
+
+
+    <select id="queryExistBindAccount" parameterType="com.lmj.o2o.entity.LocalAuth" resultType="int">
+        SELECT count(*) from tb_local_auth WHERE uuid=#{uuid}
+    </select>
+
+
+    <select id="adminLogin" parameterType="com.lmj.o2o.entity.LocalAuth" resultType="com.lmj.o2o.entity.LocalAuth">
+        SELECT A.user_id,UUID,user_name,PASSWORD FROM tb_local_auth A INNER JOIN tb_person_info B ON A.uuid=B.user_uuid
+        WHERE user_name=#{userName} AND PASSWORD=#{password} AND admin_flag=1
+    </select>
+
+</mapper>

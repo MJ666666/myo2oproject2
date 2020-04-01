@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lmj.o2o.dao.ShopAuthManageDao">
+    <select id="queryAllShopAuth" parameterType="com.lmj.o2o.entity.Shop" resultType="com.lmj.o2o.entity.ShopAuthMap">
+        SELECT shop_auth_id,employee_id,shop_id,NAME,title,title_flag,create_time,last_edit_time,enable_status
+        FROM tb_shop_auth_map WHERE shop_id=#{shopId}
+
+    </select>
+
+    <delete id="deleteShopAuth" parameterType="com.lmj.o2o.entity.ShopAuthMap">
+        DELETE FROM tb_shop_auth_map WHERE shop_id=#{shopId} AND employee_id=#{employeeId}
+    </delete>
+
+    <insert id="addShopAuth" parameterType="com.lmj.o2o.entity.ShopAuthMap">
+        INSERT INTO tb_shop_auth_map (employee_id,shop_id,NAME,title,title_flag,create_time,last_edit_time,enable_status)
+        VALUES(#{employeeId},#{shopId},#{name},#{title},#{titleFlag},#{createTime},#{lastEditTime},#{enableStatus})
+    </insert>
+
+    <update id="updateShopAuth" parameterType="com.lmj.o2o.entity.ShopAuthMap">
+        UPDATE tb_shop_auth_map
+        <set>
+            <if test="name!=null">name=#{name},</if>
+            <if test="title!=null">title=#{title},</if>
+            <if test="lastEditTime!=null">last_edit_time=#{lastEditTime},</if>
+            <if test="titleFlag!=null">title_flag=#{titleFlag},</if>
+            <if test="enableStatus!=null">enable_status=#{enableStatus}</if>
+        </set>
+      WHERE employee_id=#{employeeId} AND shop_id=#{shopId}
+    </update>
+
+    <select id="getShopAuth" parameterType="com.lmj.o2o.entity.ShopAuthMap" resultType="com.lmj.o2o.entity.ShopAuthMap">
+        SELECT shop_auth_id,employee_id,shop_id,name,title,title_flag FROM tb_shop_auth_map
+        WHERE employee_id=#{employeeId} AND shop_id=#{shopId}
+    </select>
+
+    <select id="queryExistAuth" parameterType="com.lmj.o2o.entity.ShopAuthMap" resultType="com.lmj.o2o.entity.ShopAuthMap">
+        SELECT shop_auth_id,employee_id,shop_id,name,title,title_flag FROM tb_shop_auth_map
+        WHERE employee_id=#{employeeId} AND shop_id=#{shopId} AND enable_status=1 AND title_flag=1
+    </select>
+</mapper>

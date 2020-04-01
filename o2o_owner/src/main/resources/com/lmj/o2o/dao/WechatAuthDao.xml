@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lmj.o2o.dao.WechatAuthDao">
+
+    <insert id="addNewWechatUser" parameterType="com.lmj.o2o.entity.WechatAuth">
+        INSERT INTO tb_wechat_auth (
+            user_id,open_id,create_time,uuid
+        ) VALUES(
+                 #{userId},#{openId},#{createTime},#{uuid}
+                        )
+    </insert>
+
+
+    <select id="queryUserByOpenid" parameterType="com.lmj.o2o.entity.WechatAuth" resultType="com.lmj.o2o.entity.WechatAuth">
+        SELECT user_id,uuid FROM tb_wechat_auth WHERE open_id=#{openId}
+    </select>
+</mapper>

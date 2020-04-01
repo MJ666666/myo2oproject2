@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lmj.o2o.dao.ProductDao">
+<resultMap id="productRm" type="com.lmj.o2o.entity.Product">
+    <result column="product_id" property="productId"/>
+    <result column="product_name" property="productName"/>
+    <result column="product_desc" property="productDesc"/>
+    <result column="img_addr" property="imgAddr"/>
+    <result column="normal_price" property="normalPrice" />
+    <result column="promotion_price" property="promotionPrice" />
+    <result column="point" property="point" />
+    <result column="priority" property="priority" />
+    <association property="productCategory" javaType="com.lmj.o2o.entity.ProductCategory" column="product_category_id" >
+        <id column="product_category_id" property="productCategoryId"/>
+        <result column="product_category_name" property="productCategoryName"/>
+    </association>
+</resultMap>
+
+    <select id="queryProductByShopId" resultType="com.lmj.o2o.entity.Product" parameterType="com.lmj.o2o.vo.PageVO">
+        SELECT product_id,product_name,priority,enable_status
+        FROM tb_product
+        WHERE shop_id=#{shopId}
+        ORDER BY priority DESC LIMIT #{startIndex},#{pageSize}
+    </select>
+
+    <insert id="addNewProduct" parameterType="com.lmj.o2o.entity.Product" useGeneratedKeys="true" keyProperty="productId" keyColumn="product_id">
+        INSERT INTO tb_product
+            (
+             product_name,product_category_id,priority,normal_price,promotion_price,point,
+             img_addr,product_desc,enable_status,create_time,last_edit_time,shop_id
+            )
+            VALUES(
+             #{productName},#{productCategoryId},#{priority},#{normalPrice},#{promotionPrice},#{point},
+                   #{imgAddr},#{productDesc},#{enableStatus},#{createTime},#{lastEditTime},#{shopId}
+                  )
+    </insert>
+
+    <update id="updateProduct" parameterType="com.lmj.o2o.entity.Product">
+        UPDATE tb_product
+      <set>
+          <if test="priority!=null">priority=#{priority},</if>
+          <if test="normalPrice!=null">normal_price=#{normalPrice},</if>
+          <if test="promotionPrice!=null">promotion_price=#{promotionPrice},</if>
+          <if test="point!=null">point=#{point},</if>
+          <if test="imgAddr!=null">img_addr=#{imgAddr},</if>
+          <if test="productDesc!=null">product_desc=#{productDesc},</if>
+          <if test="enableStatus!=null">enable_status=#{enableStatus},</if>
+          <if test="lastEditTime!=null">last_edit_time=#{lastEditTime}</if>
+      </set>
+      WHERE shop_id=#{shopId} AND product_id=#{productId}
+    </update>
+
+
+    <select id="countTotalRecordsByShopId" parameterType="com.lmj.o2o.vo.PageVO" resultType="int">
+        SELECT count(*) FROM tb_product WHERE shop_id=#{shopId}
+    </select>
+
+
+<select id="getProductInfo" resultMap="productRm" parameterType="com.lmj.o2o.entity.Product">
+    SELECT product_id,product_name,product_desc,img_addr,normal_price,promotion_price,A.priority,POINT,product_category_name
+    FROM tb_product A INNER JOIN tb_product_category B ON A.product_category_id=B.product_category_id
+    WHERE product_id=#{productId}
+</select>
+
+
+
+    <select id="queryProductCateByShopId" parameterType="com.lmj.o2o.entity.Shop" resultType="com.lmj.o2o.entity.Product">
+        SELECT DISTINCT product_id,product_name
+        FROM tb_product
+        WHERE shop_id=#{shopId}
+        ORDER BY priority desc
+    </select>
+
+</mapper>

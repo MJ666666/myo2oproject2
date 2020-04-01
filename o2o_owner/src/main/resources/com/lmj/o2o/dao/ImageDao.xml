@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lmj.o2o.dao.ImageDao">
+    <insert id="addImages" parameterType="list">
+        INSERT INTO tb_product_img (
+        img_addr,img_desc,priority,create_time,product_id
+        )
+        values
+        <foreach collection="list" item="img" index="index" separator=",">
+            (
+             #{img.imgAddr},#{img.imgDesc},#{img.priority},
+             #{img.createTime},#{img.productId}
+            )
+        </foreach>
+    </insert>
+
+    <delete id="deleteImages" parameterType="com.lmj.o2o.entity.Product">
+        DELETE FROM tb_product_img WHERE product_id=#{productId}
+    </delete>
+
+    <select id="getImgList" parameterType="com.lmj.o2o.entity.Product" resultType="com.lmj.o2o.entity.ProductImg">
+        SELECT product_img_id,img_addr FROM tb_product_img
+        WHERE product_id=#{productId}
+    </select>
+</mapper>

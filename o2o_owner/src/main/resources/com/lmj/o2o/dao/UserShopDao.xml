@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lmj.o2o.dao.UserShopDao">
+
+    <update id="updateUserPoint" parameterType="com.lmj.o2o.entity.UserAwardMap">
+        UPDATE tb_user_shop_map SET point=point-#{point}
+        WHERE user_id=#{userId} AND shop_id=#{shopId}
+    </update>
+
+
+    <insert id="addNewCustomer" parameterType="com.lmj.o2o.entity.UserProductMap">
+        INSERT INTO tb_user_shop_map (user_id,shop_id,user_name,shop_name,create_time,POINT)
+        VALUES(#{userId},#{shopId},#{userName},#{shopName},#{createTime},#{point})
+    </insert>
+
+    <select id="queryExistCustomer" parameterType="com.lmj.o2o.entity.UserProductMap" resultType="int">
+        SELECT COUNT(*) FROM tb_user_shop_map WHERE user_id=#{userId} AND shop_id=#{shopId}
+    </select>
+
+    <update id="addUserPoint" parameterType="com.lmj.o2o.entity.UserProductMap">
+        UPDATE tb_user_shop_map SET point=point+#{point}
+        WHERE user_id=#{userId} AND shop_id=#{shopId}
+    </update>
+
+
+    <select id="queryAllCustomerByShopID" parameterType="com.lmj.o2o.vo.PageVO" resultType="com.lmj.o2o.entity.UserShopMap">
+        SELECT user_shop_id,user_id,user_name,create_time,POINT FROM tb_user_shop_map WHERE shop_id=#{shopId} ORDER BY point DESC LIMIT #{startIndex},#{pageSize}
+    </select>
+
+    <select id="countAllCustomers" parameterType="com.lmj.o2o.vo.PageVO" resultType="int">
+        SELECT COUNT(*) FROM tb_user_shop_map WHERE shop_id=#{shopId}
+    </select>
+</mapper>
