@@ -8,6 +8,8 @@
     <file url="file://$PROJECT_DIR$/o2o_customer" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/o2o_login" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/o2o_owner" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/oauth-server" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/oauth2-server" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/redis-service" charset="UTF-8" />
   </component>
 </project>

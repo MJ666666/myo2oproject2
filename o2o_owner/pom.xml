@@ -153,6 +153,12 @@
             <version>2.2.2.RELEASE</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-oauth2 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-oauth2</artifactId>
+            <version>2.2.1.RELEASE</version>
+        </dependency>
     </dependencies>
 
     <build>

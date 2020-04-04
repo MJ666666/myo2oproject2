@@ -34,6 +34,12 @@ import java.util.Enumeration;
  */
 @Controller
 public class TestController {
+    @GetMapping("/echo")
+    public void test11(HttpServletResponse response) throws IOException {
+
+        response.getWriter().write("echo hello");
+    }
+
 
     @GetMapping("/test2222")
     public void test1(HttpServletRequest request,HttpServletResponse response) throws IOException {

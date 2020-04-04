@@ -13,9 +13,13 @@
         <module name="o2o_customer" />
         <module name="o2o_login" />
         <module name="o2o_owner" />
+        <module name="oauth2-server" />
         <module name="redis-service" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="oauth-server" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
@@ -24,6 +28,8 @@
       <module name="o2o_customer" options="-parameters" />
       <module name="o2o_login" options="-parameters" />
       <module name="o2o_owner" options="-parameters" />
+      <module name="oauth-server" options="-parameters" />
+      <module name="oauth2-server" options="-parameters" />
       <module name="redis-service" options="-parameters" />
     </option>
   </component>
