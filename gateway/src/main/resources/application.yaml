@@ -1,0 +1,19 @@
+server:
+  port: 9005
+spring:
+  application:
+    name: alibaba-nacos-gateway
+  cloud:
+     nacos:
+        discovery:
+           server-addr: 192.168.174.128:8848
+
+     gateway:
+       discovery:
+         locator:
+           enabled: true
+         routes:
+         - id: login_service
+           uri: lb://o2o-login
+           predicates:
+            - Method=GET,POST

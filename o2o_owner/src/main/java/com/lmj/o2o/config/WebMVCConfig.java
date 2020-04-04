@@ -71,82 +71,82 @@ public class WebMVCConfig extends WebMvcConfigurerAdapter {
         filterFilterRegistrationBean.addUrlPatterns("/shopIndex");
         return filterFilterRegistrationBean;
     }
-
-    @Autowired
-    private RedisService redisService;
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-
-
-        //登录拦截
-        HandlerInterceptor handlerInterceptor = new HandlerInterceptor() {
-
-            @Override
-            public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-                Cookie[] cookies = request.getCookies();
-                if (cookies!=null && cookies.length!=0) {
-
-                    String userToken="";
-                    for (Cookie cookie : cookies) {
-                        if (Consts.USER_TOKEN.equals(cookie.getName())) {
-                            userToken = cookie.getValue();
-                            break;
-                        }
-                    }
-                    if (!redisService.existKey(userToken)) {
-                        response.sendRedirect("login");
-                        return false;
-                    }
-                    String localAuthJson = redisService.get(userToken).replaceAll("aaaa","/");
-                    LocalAuth localAuth = GsonUtils.GsonToBean(localAuthJson, LocalAuth.class);
-                    request.getSession().setAttribute("currentUser",localAuth);
-                    request.getSession().setAttribute("currentUserId",localAuth.getUserId());
-
-                    return true;
-
-
-                }
-
-
-                response.sendRedirect("login");
-                return false;
-
-            }
-
-            @Override
-            public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-
-
-            }
-
-            @Override
-            public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-
-            }
-        };
-        registry.addInterceptor(handlerInterceptor).excludePathPatterns("/login").excludePathPatterns("/validateCode").excludePathPatterns("/user/login")
-                .excludePathPatterns("/register").excludePathPatterns("/user/register")
-                .excludePathPatterns("/error").excludePathPatterns("/404").excludePathPatterns("/validateNotMatch")
-                .excludePathPatterns("/nullparam").excludePathPatterns("/wechat/*").excludePathPatterns("/userAward/exchangeAward")
-                .excludePathPatterns("/personInfo/updatePersonInfo").excludePathPatterns("/userAward/updateRecord").excludePathPatterns("/userAward/getAwardCode")
-                .excludePathPatterns("/adminPage").excludePathPatterns("/adminLogin/login");
-
-
-        HandlerInterceptor adminInteceptor=new HandlerInterceptor(){
-            @Override
-            public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-
-                String adminFlag = (String)request.getSession().getAttribute("adminFlag");
-                if (adminFlag != null && "true".equals(adminFlag)) {
-                    return true;
-                }
-
-                return false;
-            }
-        };
-        registry.addInterceptor(adminInteceptor).addPathPatterns("/adminIndex").addPathPatterns("/admin/*").addPathPatterns("/adminHeadLine")
-                .addPathPatterns("/adminUser").addPathPatterns("/adminCates").addPathPatterns("/adminShop");
-
-    }
+//
+//    @Autowired
+//    private RedisService redisService;
+//
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//
+//
+//        //登录拦截
+//        HandlerInterceptor handlerInterceptor = new HandlerInterceptor() {
+//
+//            @Override
+//            public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+//                Cookie[] cookies = request.getCookies();
+//                if (cookies!=null && cookies.length!=0) {
+//
+//                    String userToken="";
+//                    for (Cookie cookie : cookies) {
+//                        if (Consts.USER_TOKEN.equals(cookie.getName())) {
+//                            userToken = cookie.getValue();
+//                            break;
+//                        }
+//                    }
+//                    if (!redisService.existKey(userToken)) {
+//                        response.sendRedirect("login");
+//                        return false;
+//                    }
+//                    String localAuthJson = redisService.get(userToken).replaceAll("aaaa","/");
+//                    LocalAuth localAuth = GsonUtils.GsonToBean(localAuthJson, LocalAuth.class);
+//                    request.getSession().setAttribute("currentUser",localAuth);
+//                    request.getSession().setAttribute("currentUserId",localAuth.getUserId());
+//
+//                    return true;
+//
+//
+//                }
+//
+//
+//                response.sendRedirect("login");
+//                return false;
+//
+//            }
+//
+//            @Override
+//            public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+//
+//
+//            }
+//
+//            @Override
+//            public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+//
+//            }
+//        };
+//        registry.addInterceptor(handlerInterceptor).excludePathPatterns("/login").excludePathPatterns("/validateCode").excludePathPatterns("/user/login")
+//                .excludePathPatterns("/register").excludePathPatterns("/user/register")
+//                .excludePathPatterns("/error").excludePathPatterns("/404").excludePathPatterns("/validateNotMatch")
+//                .excludePathPatterns("/nullparam").excludePathPatterns("/wechat/*").excludePathPatterns("/userAward/exchangeAward")
+//                .excludePathPatterns("/personInfo/updatePersonInfo").excludePathPatterns("/userAward/updateRecord").excludePathPatterns("/userAward/getAwardCode")
+//                .excludePathPatterns("/adminPage").excludePathPatterns("/adminLogin/login");
+//
+//
+//        HandlerInterceptor adminInteceptor=new HandlerInterceptor(){
+//            @Override
+//            public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+//
+//                String adminFlag = (String)request.getSession().getAttribute("adminFlag");
+//                if (adminFlag != null && "true".equals(adminFlag)) {
+//                    return true;
+//                }
+//
+//                return false;
+//            }
+//        };
+//        registry.addInterceptor(adminInteceptor).addPathPatterns("/adminIndex").addPathPatterns("/admin/*").addPathPatterns("/adminHeadLine")
+//                .addPathPatterns("/adminUser").addPathPatterns("/adminCates").addPathPatterns("/adminShop");
+//
+//    }
 }

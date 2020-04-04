@@ -11,6 +11,7 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.lmj.o2o.consts.Consts;
 import com.lmj.o2o.dao.AreaDao;
 import com.lmj.o2o.dao.UserAwardDao;
+import com.lmj.o2o.dao.UserDao;
 import com.lmj.o2o.dto.*;
 import com.lmj.o2o.entity.*;
 import com.lmj.o2o.service.*;
@@ -244,6 +245,18 @@ class O2oCustomerApplicationTests {
         String s = HttpRequestUtils.sendPostRequest(url, pk);
         System.out.println(s);
 
+    }
+
+    @Autowired
+    private UserDao userDao;
+
+    @Test
+    public void test72() {
+
+        PersonInfo personInfo = new PersonInfo();
+        personInfo.setName("mj666666");
+        PersonInfo personInfo1 = userDao.selectUserByUserName(personInfo);
+        System.out.println(personInfo1);
     }
 
 }

@@ -7,6 +7,8 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="es-service" />
+        <module name="gateway" />
         <module name="o2o_common" />
         <module name="o2o_customer" />
         <module name="o2o_login" />
@@ -17,6 +19,8 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="es-service" options="-parameters" />
+      <module name="gateway" options="-parameters" />
       <module name="o2o_customer" options="-parameters" />
       <module name="o2o_login" options="-parameters" />
       <module name="o2o_owner" options="-parameters" />
