@@ -29,7 +29,25 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
         //STATELESS SpringSecurity永远不会创建HttpSession，它不会使用HttpSession来获取SecurityContext
         http.exceptionHandling().and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().authorizeRequests().antMatchers("/**").hasAuthority("Owner");
+                .and().authorizeRequests().antMatchers("/area/**").hasAuthority("Owner")
+                .and().authorizeRequests().antMatchers("/award/**").hasAuthority("Owner")
+                .and().authorizeRequests().antMatchers("/image/**").hasAuthority("Owner")
+                .and().authorizeRequests().antMatchers("/personInfo/**").hasAuthority("Owner")
+                .and().authorizeRequests().antMatchers("/productCategory/**").hasAuthority("Owner")
+                .and().authorizeRequests().antMatchers("/product/**").hasAuthority("Owner")
+                .and().authorizeRequests().antMatchers("/qrcode").hasAuthority("Owner")
+                .and().authorizeRequests().antMatchers("/shopAuth/**").hasAuthority("Owner")
+                .and().authorizeRequests().antMatchers("/shopCategory/**").hasAuthority("Owner")
+                .and().authorizeRequests().antMatchers("/shop/**").hasAuthority("Owner")
+                .and().authorizeRequests().antMatchers("/userAward/**").hasAuthority("Owner")
+                .and().authorizeRequests().antMatchers("/useProduct/**").hasAuthority("Owner")
+                .and().authorizeRequests().antMatchers("/userShop/**").hasAuthority("Owner")
+                .and().authorizeRequests().antMatchers("/useProduct/**").hasAuthority("Owner")
+                .and().authorizeRequests().antMatchers("/wechat/**").hasAuthority("Owner")
+
+
+        ;
 
     }
+
 }
