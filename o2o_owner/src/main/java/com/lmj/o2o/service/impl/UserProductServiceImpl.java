@@ -14,6 +14,7 @@ import com.lmj.o2o.service.UserProductService;
 import com.lmj.o2o.utils.GsonUtils;
 import com.lmj.o2o.utils.PageUtil;
 import com.lmj.o2o.vo.PageVO;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,7 +47,7 @@ public class UserProductServiceImpl implements UserProductService {
  *
  */
 
-  @Autowired
+@Reference(version = "${demo.service.version}")
   private RedisService redisService;
 
     @Override
@@ -67,9 +68,9 @@ public class UserProductServiceImpl implements UserProductService {
                 String delKeyOne = Consts.USER_PRODUCT_RECORD_LIST_KEY + recordsPage.getShopId().toString() + "_page_1";
                 String delKeyTwo = Consts.USER_PRODUCT_RECORD_LIST_KEY + recordsPage.getShopId().toString() + "_page_1";
                 String delKeyThree = Consts.USER_PRODUCT_RECORD_LIST_KEY + recordsPage.getShopId().toString() + "_page_1";
-                redisService.deleteKey(delKeyOne);
-                redisService.deleteKey(delKeyTwo);
-                redisService.deleteKey(delKeyThree);
+                redisService.delKey(delKeyOne);
+                redisService.delKey(delKeyTwo);
+                redisService.delKey(delKeyThree);
                 redisService.storeValue(recordNumsKey,String.valueOf(totalRecords));
             }
         }

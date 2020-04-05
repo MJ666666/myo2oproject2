@@ -5,13 +5,13 @@ import com.lmj.o2o.consts.Consts;
 import com.lmj.o2o.dao.ShopDao;
 import com.lmj.o2o.dto.ShopTO;
 import com.lmj.o2o.entity.Shop;
-import com.lmj.o2o.enums.OperationEnum;
 import com.lmj.o2o.enums.ShopStateEnum;
 import com.lmj.o2o.service.RedisService;
 import com.lmj.o2o.service.ShopService;
 import com.lmj.o2o.utils.GsonUtils;
 import com.lmj.o2o.utils.PageUtil;
 import com.lmj.o2o.vo.PageVO;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +30,7 @@ import java.util.Map;
 @Service
 public class ShopServiceImpl implements ShopService {
 
-    @Autowired
+    @Reference(version = "${demo.service.version}")
     private RedisService redisService;
 
     @Autowired
@@ -86,7 +86,7 @@ public class ShopServiceImpl implements ShopService {
         int i = shopDao.updateShopInfo(shop);
         if (i==1) {
             shopTO= new ShopTO(ShopStateEnum.SUCCESS);
-            redisService.deleteKey(shopKey);
+            redisService.delKey(shopKey);
         }else{
             shopTO=new ShopTO(ShopStateEnum.NULL_SHOP_INFO);
         }
@@ -111,8 +111,8 @@ public class ShopServiceImpl implements ShopService {
         if (i==1) {
             shopTO= new ShopTO(ShopStateEnum.SUCCESS);
             shopTO.setShop(shop);
-            redisService.deleteKey(storeKey);
-            redisService.deleteKey(recordNumsKey);
+            redisService.delKey(storeKey);
+            redisService.delKey(recordNumsKey);
         }else{
             shopTO=new ShopTO(ShopStateEnum.NULL_SHOP_INFO);
         }

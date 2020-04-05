@@ -9,9 +9,9 @@ import com.lmj.o2o.enums.OperationEnum;
 import com.lmj.o2o.service.AwardSerice;
 import com.lmj.o2o.service.RedisService;
 import com.lmj.o2o.utils.GsonUtils;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import redis.clients.jedis.JedisCluster;
 
 import java.util.Date;
 import java.util.List;
@@ -29,7 +29,7 @@ public class AwardServiceImpl implements AwardSerice {
     @Autowired
     private AwardDao awardDao;
 
-    @Autowired
+    @Reference(version = "${demo.service.version}")
     private RedisService redisService;
 
 
@@ -40,7 +40,7 @@ public class AwardServiceImpl implements AwardSerice {
         awardDao.addAward(award);
         if (award.getAwardId()>0) {
             awardTO=new AwardTO(OperationEnum.SUCCESS);
-            redisService.deleteKey(storeKey);
+            redisService.delKey(storeKey);
             return awardTO;
         }
         awardTO=new AwardTO(OperationEnum.INNER_ERROR);
@@ -56,7 +56,7 @@ public class AwardServiceImpl implements AwardSerice {
         if (i==1) {
             awardTO=new AwardTO(OperationEnum.SUCCESS);
             awardTO.setAward(award);
-            redisService.deleteKey(storeKey);
+            redisService.delKey(storeKey);
             return awardTO;
         }
         awardTO=new AwardTO(OperationEnum.INNER_ERROR);
@@ -73,8 +73,8 @@ public class AwardServiceImpl implements AwardSerice {
         int i = awardDao.updateAward(award);
         if (i==1) {
             awardTO=new AwardTO(OperationEnum.SUCCESS);
-            redisService.deleteKey(storeKey);
-            redisService.deleteKey(storeListKey);
+            redisService.delKey(storeKey);
+            redisService.delKey(storeListKey);
             return awardTO;
         }
         awardTO=new AwardTO(OperationEnum.INNER_ERROR);

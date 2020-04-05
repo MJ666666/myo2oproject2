@@ -4,12 +4,12 @@ package com.lmj.o2o.service.impl;
 import com.lmj.o2o.consts.Consts;
 import com.lmj.o2o.dao.HeadLineDao;
 import com.lmj.o2o.dto.HeadLineTO;
-import com.lmj.o2o.entity.Area;
 import com.lmj.o2o.entity.HeadLine;
 import com.lmj.o2o.enums.OperationEnum;
 import com.lmj.o2o.service.HeadLineService;
 import com.lmj.o2o.service.RedisService;
 import com.lmj.o2o.utils.GsonUtils;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +25,7 @@ import java.util.List;
 @Service
 public class HeadLineServiceImpl implements HeadLineService {
 
-    @Autowired
+    @Reference(version = "${demo.service.version}")
     private RedisService redisService;
 
     @Autowired
@@ -96,7 +96,7 @@ public class HeadLineServiceImpl implements HeadLineService {
         HeadLineTO headLineTO;
         if (i == 1) {
             headLineTO = new HeadLineTO(OperationEnum.SUCCESS);
-            redisService.deleteKey(Consts.HEAD_LINE_LIST_KEY);
+            redisService.delKey(Consts.HEAD_LINE_LIST_KEY);
             return headLineTO;
         }
         headLineTO = new HeadLineTO(OperationEnum.INNER_ERROR);

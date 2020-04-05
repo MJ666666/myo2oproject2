@@ -2,12 +2,12 @@ package com.lmj.o2o.controller;
 
 
 import com.lmj.o2o.consts.Consts;
-import com.lmj.o2o.entity.Product;
 import com.lmj.o2o.entity.Shop;
 import com.lmj.o2o.service.RedisService;
 import com.lmj.o2o.utils.GsonUtils;
 import com.lmj.o2o.utils.ImageUtil;
 import net.coobird.thumbnailator.Thumbnails;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -107,7 +107,7 @@ public class TestController {
 
     }
 
-    @Autowired
+    @Reference(version = "${demo.service.version}")
     private RedisService redisService;
 
     @GetMapping("/test/{key}/{value}")

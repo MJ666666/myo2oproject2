@@ -9,9 +9,9 @@ import com.lmj.o2o.enums.OperationEnum;
 import com.lmj.o2o.service.AreaService;
 import com.lmj.o2o.service.RedisService;
 import com.lmj.o2o.utils.GsonUtils;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import redis.clients.jedis.JedisCluster;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ import java.util.List;
 @Service
 public class AreaServiceImpl implements AreaService {
 
-    @Autowired
+    @Reference(version = "${demo.service.version}")
     private RedisService redisService;
 
     @Autowired
@@ -58,7 +58,7 @@ public class AreaServiceImpl implements AreaService {
         int i = areaDao.addArea(area);
         if (i==1) {
             areaTO = new AreaTO(OperationEnum.SUCCESS);
-            redisService.deleteKey(Consts.AREA_LIST_KEY);
+            redisService.delKey(Consts.AREA_LIST_KEY);
             return areaTO;
         }
         areaTO = new AreaTO(OperationEnum.INNER_ERROR);
@@ -71,7 +71,7 @@ public class AreaServiceImpl implements AreaService {
         int i = areaDao.updateArea(area);
         if (i==1) {
             areaTO = new AreaTO(OperationEnum.SUCCESS);
-            redisService.deleteKey(Consts.AREA_LIST_KEY);
+            redisService.delKey(Consts.AREA_LIST_KEY);
             return areaTO;
         }
         areaTO = new AreaTO(OperationEnum.INNER_ERROR);

@@ -6,7 +6,6 @@ import com.lmj.o2o.dao.PersonInfoDao;
 import com.lmj.o2o.dto.LocalAuthTO;
 import com.lmj.o2o.entity.LocalAuth;
 import com.lmj.o2o.entity.PersonInfo;
-import com.lmj.o2o.entity.WechatAuth;
 import com.lmj.o2o.enums.OperationEnum;
 import com.lmj.o2o.exception.AuthExecuteException;
 import com.lmj.o2o.service.LocalAuthService;
@@ -15,13 +14,12 @@ import com.lmj.o2o.utils.GsonUtils;
 import com.lmj.o2o.utils.MD5Utils;
 import com.lmj.o2o.utils.UuidUtils;
 import com.lmj.o2o.vo.RegisterEntity;
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
-import java.util.UUID;
 
 /**
  * ClassName: LocalAuthServiceImpl
@@ -41,7 +39,7 @@ public class LocalAuthServiceImpl implements LocalAuthService {
     private PersonInfoDao personInfoDao;
 
 
-    @Autowired
+    @Reference(version = "${demo.service.version}")
     private RedisService redisService;
 
 

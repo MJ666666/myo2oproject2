@@ -8,6 +8,7 @@ import com.lmj.o2o.enums.OperationEnum;
 import com.lmj.o2o.service.RedisService;
 import com.lmj.o2o.service.ShopCategoryService;
 import com.lmj.o2o.utils.GsonUtils;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ import java.util.List;
 @Service
 public class ShopCategoryServiceImpl implements ShopCategoryService {
 
-    @Autowired
+    @Reference(version = "${demo.service.version}")
     private RedisService redisService;
 
     @Autowired

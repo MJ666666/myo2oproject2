@@ -5,7 +5,6 @@ import com.lmj.o2o.consts.Consts;
 import com.lmj.o2o.dao.ImageDao;
 import com.lmj.o2o.dao.ProductDao;
 import com.lmj.o2o.dto.ProductTO;
-import com.lmj.o2o.entity.Area;
 import com.lmj.o2o.entity.Product;
 import com.lmj.o2o.entity.ProductImg;
 import com.lmj.o2o.enums.OperationEnum;
@@ -15,6 +14,7 @@ import com.lmj.o2o.service.RedisService;
 import com.lmj.o2o.utils.GsonUtils;
 import com.lmj.o2o.utils.PageUtil;
 import com.lmj.o2o.vo.PageVO;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,7 +33,7 @@ import java.util.Map;
  */
 @Service
 public class ProductServiceImpl implements ProductService {
-    @Autowired
+    @Reference(version = "${demo.service.version}")
     private RedisService redisService;
     @Autowired
     private ProductDao productDao;
@@ -107,7 +107,7 @@ public class ProductServiceImpl implements ProductService {
         } catch (Exception e) {
             throw new ProductExecuteException("添加商品图片失败");
         }
-        redisService.deleteKey(productListKey);
+        redisService.delKey(productListKey);
         return  new ProductTO(OperationEnum.SUCCESS);
     }
 
@@ -130,7 +130,7 @@ public class ProductServiceImpl implements ProductService {
             int productUpdateResult = productDao.updateProduct(product);
             if (productUpdateResult == 1) {
                 productTO = new ProductTO(OperationEnum.SUCCESS);
-                redisService.deleteKey(productListKey);
+                redisService.delKey(productListKey);
             } else {
                 throw new ProductExecuteException("商品信息更新失败");
             }
@@ -145,7 +145,7 @@ public class ProductServiceImpl implements ProductService {
         String productListKey=Consts.PRODUCT_LIST_KEY+"_"+product.getShopId().toString();
         if (i==1) {
             productTO=new ProductTO(OperationEnum.SUCCESS);
-            redisService.deleteKey(productListKey);
+            redisService.delKey(productListKey);
             return productTO;
         }
         productTO=new ProductTO(OperationEnum.INNER_ERROR);

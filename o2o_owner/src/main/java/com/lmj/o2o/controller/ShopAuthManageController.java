@@ -9,7 +9,7 @@ import com.lmj.o2o.entity.ShopAuthMap;
 import com.lmj.o2o.enums.OperationEnum;
 import com.lmj.o2o.service.RedisService;
 import com.lmj.o2o.service.ShopAuthManageService;
-import com.sun.org.apache.xpath.internal.operations.Mod;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -18,10 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import redis.clients.jedis.JedisCluster;
 
 import javax.servlet.http.HttpSession;
-import javax.websocket.Session;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,7 +40,7 @@ public class ShopAuthManageController {
     private ShopAuthManageService shopAuthManageService;
 
 
-    @Autowired
+    @Reference(version = "${demo.service.version}")
     private RedisService redisService;
 
     @GetMapping("/getShopAuthList")

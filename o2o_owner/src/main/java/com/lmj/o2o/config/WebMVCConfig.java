@@ -1,28 +1,16 @@
 package com.lmj.o2o.config;
 
-import com.lmj.o2o.consts.Consts;
-import com.lmj.o2o.entity.LocalAuth;
 import com.lmj.o2o.filter.RequestFilter;
-import com.lmj.o2o.service.RedisService;
-import com.lmj.o2o.utils.GsonUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
-import redis.clients.jedis.JedisCluster;
 
 import javax.servlet.Filter;
-import javax.servlet.FilterRegistration;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * Created by paul on 2017-06-14.

@@ -15,6 +15,7 @@ import com.lmj.o2o.utils.GsonUtils;
 import com.lmj.o2o.utils.PageUtil;
 import com.lmj.o2o.utils.UuidUtils;
 import com.lmj.o2o.vo.PageVO;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,7 +40,7 @@ public class UserAwardServiceImpl implements UserAwardService{
     @Autowired
     private UserShopDao userShopDao;
 
-    @Autowired
+    @Reference(version = "${demo.service.version}")
     private RedisService redisService;
 
     @Transactional
@@ -106,9 +107,9 @@ public class UserAwardServiceImpl implements UserAwardService{
                 String delKeyOne = Consts.USER_AWARD_RECORD_LIST_OWNER_KEY + pageVO.getShopId().toString() + "_page_1";
                 String delKeyTwo = Consts.USER_AWARD_RECORD_LIST_OWNER_KEY + pageVO.getShopId().toString() + "_page_1";
                 String delKeyThree = Consts.USER_AWARD_RECORD_LIST_OWNER_KEY + pageVO.getShopId().toString() + "_page_1";
-                redisService.deleteKey(delKeyOne);
-                redisService.deleteKey(delKeyTwo);
-                redisService.deleteKey(delKeyThree);
+                redisService.delKey(delKeyOne);
+                redisService.delKey(delKeyTwo);
+                redisService.delKey(delKeyThree);
                 redisService.storeValue(recordNumsKey,String.valueOf(totalRecords));
             }
         }

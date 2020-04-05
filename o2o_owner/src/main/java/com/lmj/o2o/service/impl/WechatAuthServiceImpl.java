@@ -14,6 +14,7 @@ import com.lmj.o2o.service.WechatAuthService;
 import com.lmj.o2o.utils.GsonUtils;
 import com.lmj.o2o.utils.MD5Utils;
 import com.lmj.o2o.utils.UuidUtils;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,7 +41,7 @@ public class WechatAuthServiceImpl implements WechatAuthService {
     @Autowired
     private LocalAuthDao localAuthDao;
 
-    @Autowired
+    @Reference(version = "${demo.service.version}")
     private RedisService redisService;
 
     /**

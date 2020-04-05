@@ -2,7 +2,6 @@ package com.lmj.o2o.service.impl;
 
 import com.lmj.o2o.consts.Consts;
 import com.lmj.o2o.dao.UserShopDao;
-import com.lmj.o2o.dto.UserAwardTO;
 import com.lmj.o2o.dto.UserShopTO;
 import com.lmj.o2o.entity.UserShopMap;
 import com.lmj.o2o.enums.OperationEnum;
@@ -11,6 +10,7 @@ import com.lmj.o2o.service.UserShopService;
 import com.lmj.o2o.utils.GsonUtils;
 import com.lmj.o2o.utils.PageUtil;
 import com.lmj.o2o.vo.PageVO;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +29,7 @@ import java.util.Map;
 public class UserShopServiceImpl implements UserShopService {
 
 
-    @Autowired
+    @Reference(version = "${demo.service.version}")
     private RedisService redisService;
 
     @Autowired
@@ -51,7 +51,7 @@ public class UserShopServiceImpl implements UserShopService {
             if (num!=totalRecords) {
                 //删除第一页的缓存，其他的等时间过期
                 String delKeyOne = Consts.USER_SHOP_LIST_KEY + pageVO.getShopId().toString() + "_page_1";
-                redisService.deleteKey(delKeyOne);
+                redisService.delKey(delKeyOne);
                 redisService.storeValue(recordNumsKey,String.valueOf(totalRecords));
             }
         }

@@ -3,16 +3,15 @@ package com.lmj.o2o.service.impl;
 import com.lmj.o2o.consts.Consts;
 import com.lmj.o2o.dao.ImageDao;
 import com.lmj.o2o.dto.ImageTO;
-import com.lmj.o2o.entity.HeadLine;
 import com.lmj.o2o.entity.Product;
 import com.lmj.o2o.entity.ProductImg;
 import com.lmj.o2o.enums.OperationEnum;
 import com.lmj.o2o.service.ImageService;
 import com.lmj.o2o.service.RedisService;
 import com.lmj.o2o.utils.GsonUtils;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import redis.clients.jedis.JedisCluster;
 
 import java.util.List;
 
@@ -26,7 +25,7 @@ import java.util.List;
 @Service
 public class ImageServiceImpl implements ImageService {
 
-    @Autowired
+    @Reference(version = "${demo.service.version}")
     private RedisService redisService;
 
     @Autowired

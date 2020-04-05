@@ -1,6 +1,5 @@
 package com.lmj.o2o.o2o_owner;
 
-import com.alibaba.druid.filter.config.ConfigTools;
 import com.lmj.o2o.consts.Consts;
 import com.lmj.o2o.dao.*;
 import com.lmj.o2o.entity.*;
@@ -10,10 +9,12 @@ import com.lmj.o2o.utils.HttpRequestUtils;
 import com.lmj.o2o.utils.MD5Utils;
 import com.lmj.o2o.utils.UuidUtils;
 import com.lmj.o2o.vo.PageVO;
+import org.apache.dubbo.config.annotation.Reference;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.net.URLEncoder;
@@ -464,8 +465,7 @@ public class MyTest {
         System.out.println(localAuth1);
 
     }
-
-    @Autowired
+    @Reference(version = "${demo.service.version}")
     private RedisService redisService;
 
     @Test

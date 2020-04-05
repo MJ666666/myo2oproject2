@@ -5,12 +5,12 @@ import com.lmj.o2o.consts.Consts;
 import com.lmj.o2o.dao.ProductCategoryDao;
 import com.lmj.o2o.dto.ProductCategoryTO;
 import com.lmj.o2o.entity.ProductCategory;
-import com.lmj.o2o.entity.ProductImg;
 import com.lmj.o2o.entity.Shop;
 import com.lmj.o2o.enums.OperationEnum;
 import com.lmj.o2o.service.ProductCategoryService;
 import com.lmj.o2o.service.RedisService;
 import com.lmj.o2o.utils.GsonUtils;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +26,7 @@ import java.util.List;
 @Service
 public class ProductCategoryServiceImpl implements ProductCategoryService {
 
-    @Autowired
+    @Reference(version = "${demo.service.version}")
     private RedisService redisService;
 
 
@@ -67,7 +67,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
         if (i>0) {
             productCategoryTO=new ProductCategoryTO(OperationEnum.SUCCESS);
             productCategoryTO.setProductCategory(productCategory);
-            redisService.deleteKey(productCatesKey);
+            redisService.delKey(productCatesKey);
         }else {
             productCategoryTO=new ProductCategoryTO(OperationEnum.INNER_ERROR);
         }
@@ -82,7 +82,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
         int i = productCategoryDao.deleteProductCategory(productCategory);
         if (i==1) {
             productCategoryTO=new ProductCategoryTO(OperationEnum.SUCCESS);
-            redisService.deleteKey(productCatesKey);
+            redisService.delKey(productCatesKey);
         }else {
             productCategoryTO=new ProductCategoryTO(OperationEnum.INNER_ERROR);
         }

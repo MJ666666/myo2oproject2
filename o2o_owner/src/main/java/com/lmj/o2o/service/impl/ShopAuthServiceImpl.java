@@ -8,6 +8,7 @@ import com.lmj.o2o.entity.ShopAuthMap;
 import com.lmj.o2o.enums.OperationEnum;
 import com.lmj.o2o.service.RedisService;
 import com.lmj.o2o.service.ShopAuthManageService;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +28,7 @@ public class ShopAuthServiceImpl implements ShopAuthManageService {
     @Autowired
     private ShopAuthManageDao shopAuthManageDao;
 
-    @Autowired
+    @Reference(version = "${demo.service.version}")
     private RedisService redisService;
 
     @Override
@@ -66,7 +67,7 @@ public class ShopAuthServiceImpl implements ShopAuthManageService {
         if (i == 1) {
             shopAuthManageTO = new ShopAuthManageTO(OperationEnum.SUCCESS);
             String codeKey = Consts.SHOP_AUTH_CODE_PREFIX + shopAuthMap.getShopId().toString();
-            redisService.deleteKey(codeKey);
+            redisService.delKey(codeKey);
             return shopAuthManageTO;
         }
         shopAuthManageTO = new ShopAuthManageTO(OperationEnum.INNER_ERROR);
