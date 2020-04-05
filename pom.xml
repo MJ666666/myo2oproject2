@@ -10,6 +10,7 @@
   <version>1.0-SNAPSHOT</version>
   <modules>
     <module>o2o_common</module>
+    <module>redis-service-api</module>
   </modules>
 
   <name>myo2oproject2</name>

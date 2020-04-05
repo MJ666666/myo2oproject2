@@ -5,13 +5,13 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.5.RELEASE</version>
+        <version>2.2.6.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.lmj.o2o</groupId>
-    <artifactId>redis-service</artifactId>
+    <artifactId>redis-cosumer</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>redis-service</name>
+    <name>redis-cosumer</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
@@ -46,24 +46,11 @@
             <version>${nacos.version}</version>
         </dependency>
 
+
         <dependency>
             <artifactId>redis-service-api</artifactId>
             <groupId>com.lmj.o2o</groupId>
             <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>redis.clients</groupId>
-            <artifactId>jedis</artifactId>
-            <version>3.2.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -93,5 +80,6 @@
             </plugin>
         </plugins>
     </build>
+
 
 </project>

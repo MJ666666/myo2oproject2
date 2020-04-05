@@ -14,11 +14,14 @@
         <module name="o2o_login" />
         <module name="o2o_owner" />
         <module name="oauth2-server" />
+        <module name="redis-cosumer" />
         <module name="redis-service" />
+        <module name="redisserviceapi" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="oauth-server" target="1.8" />
+      <module name="redis-service-api" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -30,7 +33,9 @@
       <module name="o2o_owner" options="-parameters" />
       <module name="oauth-server" options="-parameters" />
       <module name="oauth2-server" options="-parameters" />
+      <module name="redis-cosumer" options="-parameters" />
       <module name="redis-service" options="-parameters" />
+      <module name="redis-service-api" options="-parameters" />
     </option>
   </component>
 </project>

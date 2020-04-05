@@ -17,6 +17,7 @@
         <option value="$PROJECT_DIR$/gateway/pom.xml" />
         <option value="$PROJECT_DIR$/es-service/pom.xml" />
         <option value="$PROJECT_DIR$/oauth2-server/pom.xml" />
+        <option value="$PROJECT_DIR$/redis-cosumer/pom.xml" />
       </list>
     </option>
   </component>

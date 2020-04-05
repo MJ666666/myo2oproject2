@@ -1,4 +1,4 @@
-package com.lmj.config;
+package com.lmj.o2o.redisservice.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
